@@ -16,8 +16,8 @@ const posts = (state = initialState, action) => {
             return { ...state, data: [...state.data, payload.data] };
 
         case CREATE_POST_FAIL:
-            return { data: "" };
-
+            //return { data: "" };
+            return { ...state, data: [...state.data] };
         default:
             return state;
     }
