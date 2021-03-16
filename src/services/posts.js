@@ -11,10 +11,19 @@ const getAllPosts = () => {
     return axios.get(API_URL + "posts");
 }
 
+const createNewPost = (data) => {
+    //return axios.get(API_URL + "comments", { headers: authHeader() });  // pass header for token 
+    //console.log("API_URL ==>", API_URL);
+    console.log(data);
+    return axios.post(API_URL + "posts", data);
+}
+
+
 
 
 const posts = {
     getAllPosts,
+    createNewPost
 
 }
 
