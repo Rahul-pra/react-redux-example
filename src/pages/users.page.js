@@ -7,21 +7,34 @@ import { Form, ListGroup } from 'react-bootstrap';
 
 class usersPage extends React.Component {
     state = {
-        allUsers: []
+        allUsersData: []
     }
     componentDidMount = async () => {
         await this.props.getUsers();
         //console.log("test 11 2222222==>", this.props)
     }
+
+    static getDerivedStateFromProps(props, state) {
+        const { allUsers } = props;
+        if (allUsers) {
+            return {
+                allUsersData: allUsers
+            }
+        }
+        return {}
+    }
+
+
     render = () => {
         //console.log("test 11 222==>", this.props.allUsers)
+        console.log("states 111==>", this.state);
         return (
             <>
                 <Helmet>
                     <title>usersPage</title>
                 </Helmet>
 
-                {!!this.props.allUsers && this.props.allUsers.length > 0 && this.props.allUsers.map((userValue) => {
+                {!!this.state.allUsersData && this.state.allUsersData.length > 0 && this.state.allUsersData.map((userValue) => {
                     return (
                         <ListGroup variant="flush">
                             <ListGroup.Item>Id: {userValue.id}</ListGroup.Item>
