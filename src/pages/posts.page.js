@@ -10,7 +10,9 @@ class postsPage extends React.Component {
     state = {
         show: false,
         fields: {},
-        errors: {}
+        errors: {},
+        allUsersData: [],
+        allPostsData: []
     }
     componentDidMount = async () => {
         await this.props.getAllUsers();
@@ -83,7 +85,7 @@ class postsPage extends React.Component {
             //console.log("formdata ==>", this.state.fields)
             await this.props.addNewPost(this.state.fields);
             console.log("newPost ==>", this.props.newPost)
-            
+
             this.handleClose();
 
         } else {
@@ -92,7 +94,20 @@ class postsPage extends React.Component {
         }
     }
 
+    static getDerivedStateFromProps(props, state) {
+        console.log("Props 112212121===>", props)
+        const { allUsers, allPosts } = props;
+        if (allUsers || allPosts) {
+            return {
+                allUsersData: allUsers,
+                allPostsData: allPosts
+            }
+        }
+        return {}
+    }
+
     render = () => {
+        console.log("states 11122==>", this.state);
         return (
             <>
 
@@ -123,7 +138,7 @@ class postsPage extends React.Component {
                                 <Form.Label>UserId</Form.Label>
                                 <Form.Control as="select" name="UserId" onChange={this.handleChange.bind(this, "UserId")} value={this.state.fields["UserId"]}>
                                     <option value="">Please Select Name</option>
-                                    {!!this.props.allUsers && this.props.allUsers.length > 0 && this.props.allUsers.map((user, i) => {
+                                    {!!this.state.allUsersData && this.state.allUsersData.length > 0 && this.state.allUsersData.map((user, i) => {
                                         return (
                                             <option value={user.id}>{user.name}</option>
                                         )
@@ -144,7 +159,7 @@ class postsPage extends React.Component {
                 </Modal>
 
                 <Accordion defaultActiveKey="0">
-                    {!!this.props.allPosts && this.props.allPosts.length > 0 && this.props.allPosts.map((post, i) => {
+                    {!!this.state.allPostsData && this.state.allPostsData.length > 0 && this.state.allPostsData.map((post, i) => {
                         return (
                             <Card>
                                 <Card.Header>
